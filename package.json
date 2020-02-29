@@ -1,0 +1,15 @@
+{
+  "name": "yata-backend",
+  "version": "1.0.0",
+  "description": "Backend for YATA, Yet Another Todo-list App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abdalrahim G. Fakhouri",
+  "license": "LGPL-3.0-or-later",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}
