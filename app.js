@@ -7,6 +7,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 
 // Database setup
 const dbaccess = require('./.db-settings.js');
@@ -23,10 +24,23 @@ db.connect((err)=>{
 // Create app
 const app = express();
 
+// Set up Cross Origin Resource Sharing (CORS)
+// Edit the 'whitelist' array of allowed origins:
+const whitelist = ['http://localhost:3000', 'http://localhost:4000', 'http://localhost:5000']
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions));
+
 //Body parser needed mostly for 'POST' requests
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 
 ////////////////// Routes : /////////////////////
 
@@ -36,7 +50,10 @@ app.get('/getTodos', (req,res)=>{
     let sql="select * from yataTodo";
     db.query(sql, (err, result)=>{
         if (err) throw err;
-        res.send(result);
+        // (result)=>{
+        //     let result2 = JSON.stringify(result);
+            res.send(result);
+        // }
     });
 });
 
