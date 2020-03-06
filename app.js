@@ -79,30 +79,30 @@ app.get('/deleteTodo/:id', (req,res)=>{
 });
 
 app.post('/setTodo', (req,res)=>{
+    console.log(req.body);
     let id = parseInt(req.body.id);
-    let isDone = req.body.isDone === true ? true: false;
+    let isdone = (req.body.isdone === true || req.body.isdone === 1) ? 1: 0;
     let todo = req.body.todo;
 
-    let MyReq = {
-        'id': id,
-        'isDone' : isDone,
-        'todo':todo
-    }
-
-    console.log(MyReq);
-
-    if (MyReq.id === 0 || Number.isNaN(MyReq.id)){
-        let sql = 'insert into yataTodo (isDone, todo) values (?, ?)';
-        db.query(sql, [MyReq.isDone, MyReq.todo], (err, result)=>{
-            if (err) console.log(err);
-            res.send("created");
+    if (id === 0 || Number.isNaN(id)){
+        console.log('inserting a new todo');
+        let sql = 'insert into yataTodo (isdone, todo) values (?, ?)';
+        db.query(sql, [isdone, todo], (err, result)=>{
+            if (err) {
+                console.log(err) 
+                res.send("Error");
+            }else {
+                let todoid = ""+result.insertId+"";  // converted the "status" to a "string" to avoid multiple types of results on the client side.
+                res.send(todoid);
+            }
         });
     } else {
-        if (MyReq.isDone == undefined || MyReq.todo == undefined){
+        if (isdone == undefined || todo == undefined){ // weak '==' used to compare both 'undefined' and 'NULL'
             res.send("To update an entry, you must provide all arguments");
         } else {
-            let sql = 'update yataTodo set isDone = ? , todo = ? where id = ?';
-            db.query(sql, [MyReq.isDone, MyReq.todo, MyReq.id], (err, result)=>{
+            console.log('updating an existing todo');
+            let sql = 'update yataTodo set isdone = ? , todo = ? where id = ?';
+            db.query(sql, [isdone, todo, id], (err, result)=>{
                 if (err) console.log(err);
                 res.send("updated");
             });
@@ -110,9 +110,6 @@ app.post('/setTodo', (req,res)=>{
     }
 
 });
-
-
-
 
 ////////////////////// Server Listen : ////////////////////
 
