@@ -73,8 +73,12 @@ app.get('/deleteTodo/:id', (req,res)=>{
     console.log("id = ",id);
     let sql=`delete from yataTodo where id = ?`;
     db.query(sql, id, (err, result)=>{
-        if (err) console.log(err);
+        if (err) { 
+            console.log(err); 
+            res.send("error");
+        } else {
         res.send("deleted");
+        }
     });
 });
 
