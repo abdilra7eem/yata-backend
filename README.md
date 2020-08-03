@@ -1,6 +1,8 @@
 # YATA-Backend
 YATA-Backend is the backend for YATA: Yet Another Todo-List App.
 
+ [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+
 YATA-Backend is a RESTful API built with NodeJS, Express, and MySQL using ES5 syntax.
 
 This code is provided as is, with no guarantee whatsoever, under LGPL v3.0 license. Please read the attached LICENSE file.
